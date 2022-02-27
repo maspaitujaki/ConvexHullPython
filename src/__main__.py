@@ -1,61 +1,37 @@
-import pandas as pd
-import matplotlib.pyplot as plt
+from ast import match_case
 from sklearn import datasets
-from myConvexHull.CHull import ConvexHull
+from showConvexHull import showConvexHull
+import pandas as pd
 
-data = datasets.load_iris()
+print("Pilih dataset:")
+print("1. iris")
+print("2. breast cancer")
+print("3. wine")
+command = input(">>")
+print()
+def data_set(x):
+    match x:
+        case 1:
+            return datasets.load_iris()
+        case 2:
+            return datasets.load_breast_cancer()
+        case 3:       
+            return datasets.load_wine()
+        case _:
+            return None
+
+data = data_set(int(command))
+
 # create a DataFrame
-df = pd.DataFrame(data.data, columns=data.feature_names)
-df['Target'] = pd.DataFrame(data.target)
-plt.figure(figsize=(10, 6))
-colors = ['b', 'r', 'g']
-plt.title('Sepal Width vs Sepal Length')
-plt.xlabel(data.feature_names[0])
-plt.ylabel(data.feature_names[1])
-for i in range(len(data.target_names)):
-    bucket = df[df['Target'] == i]
-    bucket = bucket.iloc[:, [0, 1]].values
-    hull = ConvexHull(bucket)
-    plt.scatter(bucket[:, 0], bucket[:, 1], label=data.target_names[i])
-    for j in range(len(bucket)):
-        plt.annotate(j, (bucket[j][0], bucket[j][1]))
-    for simplex in hull.simplices:
-        plt.plot(bucket[simplex, 0], bucket[simplex, 1], colors[i])
-plt.show()
 
+for i in range(len(data.feature_names)): 
+    print(f"{i+1}. ", end="")
+    print(data.feature_names[i])
 
-plt.figure(figsize=(10, 6))
-colors = ['b', 'r', 'g']
-plt.title('Petal Width vs Petal Length')
-plt.xlabel(data.feature_names[0])
-plt.ylabel(data.feature_names[1])
-for i in range(len(data.target_names)):
-    bucket = df[df['Target'] == i]
-    bucket = bucket.iloc[:, [2, 3]].values
-    hull = ConvexHull(bucket)
-    plt.scatter(bucket[:, 0], bucket[:, 1], label=data.target_names[i])
-    for j in range(len(bucket)):
-        plt.annotate(j, (bucket[j][0], bucket[j][1]))
-    for simplex in hull.simplices:
-        plt.plot(bucket[simplex, 0], bucket[simplex, 1], colors[i])
-plt.show()
+print()
 
-data = datasets.load_breast_cancer()
-# create a DataFrame
-pd.set_option('display.max_columns', None)
-df = pd.DataFrame(data.data, columns=data.feature_names)
-df['Target'] = pd.DataFrame(data.target)
-plt.figure(figsize=(10, 6))
-colors = ['b', 'r', 'g']
-plt.title('Mean radius vs Mean texture')
-plt.xlabel(data.feature_names[0])
-plt.ylabel(data.feature_names[1])
-for i in range(len(data.target_names)):
-    bucket = df[df['Target'] == i]
-    bucket = bucket.iloc[:, [0, 1]].values
-    hull = ConvexHull(bucket)
-    plt.scatter(bucket[:, 0], bucket[:, 1], label=data.target_names[i])
-    for simplex in hull.simplices:
-        plt.plot(bucket[simplex, 0], bucket[simplex, 1], colors[i])
-plt.legend()
-plt.show()
+x = int(input("Pilih nomor kolom untuk menjadi variabel x: "))
+y = int(input("Pilih nomor kolom untuk menjadi variabel y: "))
+
+showConvexHull(data, x - 1 , y - 1)
+
