@@ -12,7 +12,8 @@ Sementara itu, program main.py memerlukan package:
 * pandas
 * sklearn
 * matplotlib
-# Cara menggunakan program
+
+# Cara menggunakan program utama
 Jalankan kode berikut untuk memasang package yang diperlukan
 ```
 pip install sklearn numpy pandas matplotlib
