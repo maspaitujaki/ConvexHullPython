@@ -7,7 +7,7 @@ print("Pilih dataset:")
 print("1. iris")
 print("2. breast cancer")
 print("3. wine")
-command = input(">>")
+command = input(">> ")
 print()
 def data_set(x):
     match x:
